@@ -1,0 +1,100 @@
+<%- include("./layouts/header.ejs") %>
+
+<!-- Page Content-->
+ <div class="container px-4 px-lg-5 posts">
+    <!-- Heading Row-->
+
+    <%
+    if(posts.length > 0){
+
+        for(let i = (posts.length-1); i >= 0; i--){
+
+            %>
+
+            <div class="row gx-4 gx-lg-5 align-items-center my-5" id="post-<%=posts[i]._id %>">
+                <div class="col-lg-7">
+                <%
+                    if(posts[i].image !== undefined && posts[i].image !== ''){
+                        %>
+                        <img class="img-fluid rounded mb-4 mb-lg-0" src="<%= posts[i].image %>" width="500" height="500" alt="..." />
+
+
+                        <%
+                    }else{
+                        %>
+                        <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." />
+               
+
+
+                        <%
+
+                    }
+                 %>
+                </div>
+                
+                <div class="col-lg-5">
+                    <h1 class="font-weight-light fw-bolder"><%= posts[i].title %></h1>
+                    <p class="content-justify"><%= posts[i].content.substring(0, 200) %>...</p>
+                    <a class="btn btn-primary" href="/post/<%= posts[i]._id%>">Read More</a>
+                </div>
+                
+            </div>
+            <%
+        }
+       
+
+    }else{
+        %>
+        <h1>Posts Not Available!</h1>
+        <%
+    }
+
+    %>
+    
+
+
+
+  
+
+</div>
+<script>
+    var socket = io();
+
+    socket.on("delete_post",function(postId){
+        document.getElementById("post-"+postId).remove();
+    });
+
+    socket.on("new_post", function(formData){
+       // console.log(formData);
+       var html = "";
+       var image = "https://dummyimage.com/900x400/dee2e6/6c757d.jpg";
+       if(formData.image != ''){
+        image = formData.image;
+
+
+       }
+       html += `
+       <div class="row gx-4 gx-lg-5 align-items-center my-5">
+                <div class="col-lg-7">
+            
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="`+image+`" alt="..." /></div>
+
+                </div>
+                <div class="col-lg-7">
+                    <div class="col-lg-5">
+                    <h1 class="font-weight-light">`+formData.title+`</h1>
+                    <p>`+formData.content+`</p>
+                    <a class="btn btn-primary" href="/post/`+formData._id+`">Read More</a>
+                </div>
+            </div>
+
+       `;
+
+       $('.posts').prepend(html);
+    })
+
+</script>
+<br>
+<br>
+
+<%- include("./layouts/footer.ejs") %>

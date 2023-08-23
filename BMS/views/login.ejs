@@ -1,0 +1,49 @@
+<%- include('./layouts/header.ejs') %>
+
+<div class="container mb-6 mt-6">
+    <br>
+    <br>
+    <h1>Login</h1>
+    <br>
+
+    <%
+       if(typeof message  !== 'undefined'){
+        %>
+        <p style="color: red;"><%= message %></p>
+        <%
+
+       }
+    %>
+
+    <form action="" method="POST">
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="email" name="email" placeholder="Enter Email" required>
+
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="password" name="password" placeholder="Enter Password" required>
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <input type="submit" value="Login" class="btn btn-success">
+
+            </div>
+        </div>
+
+    </form>
+
+    
+
+</div>
+<br>
+<br>
+
+
+
+<%- include('./layouts/footer.ejs') %>
